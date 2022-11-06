@@ -3,6 +3,7 @@ package utilities;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 import java.time.Duration;
 
@@ -12,11 +13,25 @@ public class Driver {
     static WebDriver driver;
 
     public static WebDriver getDriver() {
-        WebDriverManager.chromedriver().setup();
+
 
         if (driver == null) {// method ilk cagrildiginda driver degeri atanmamis oldugundan deger ata
             // sonraki calistirmalarda degeri atanmis oldugundan 18.satir calismayacak
-            driver = new ChromeDriver();
+
+           String browser=ConfigReader.getProperty("browser");
+            switch (browser){
+                case  "chrome" :
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+                    break;
+                case "firefox":
+                    WebDriverManager.firefoxdriver().setup();
+                    driver=new FirefoxDriver();
+                    break;
+                default:
+                    WebDriverManager.chromedriver().setup();
+                    driver = new ChromeDriver();
+            }
         }
 
 
